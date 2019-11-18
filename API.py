@@ -66,6 +66,6 @@ class API:
     #retrieves information for 1 restaurant from the API
     def getFinerDetails(self, id):
         query = gql('{business (id: "' + id + '"){name price rating location{address1 city state postal_code} '
-                    + 'reviews{text} review_count hours{open{start end day}} categories{title alias}}}')
+                    + 'reviews{text} hours{open{start end day}} categories{title alias}}}')
 
         return self.client.execute(query)['business']

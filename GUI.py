@@ -64,7 +64,6 @@ class GUI:
         self.radiusBox = ttk.Combobox(self.mainFrame, takefocus='', values=['2 miles', '5 miles', '15 miles', '30 miles', '50 miles'])
         self.radiusBox.place(relx=0.65, rely=0.4, relheight=0.07, relwidth=0.2)
 
-
         optionButtons = []
         self.optionLabels = []
         place = [.021, 0.144, 0.268, 0.392, 0.515, 0.639, 0.763, 0.887]
