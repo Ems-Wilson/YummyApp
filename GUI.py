@@ -37,7 +37,7 @@ class GUI:
         populateButton = tk.Button(self.mainFrame, bg="#97b3d8", activebackground="#c3edb4", relief='groove',
                                    image=photo, command=self.fetchRestaurants)
         populateButton.image = photo
-        populateButton.place(relx=0.35, rely=0.4)
+        populateButton.place(relx=0.35, rely=0.5)
 
         exitButton = tk.Button(self.mainFrame, text="Exit/Cancel", activebackground="#c3edb4", background="#97b3d8",
                                font=("Arial", 12), command=GUIsupport.destroy_window)
@@ -50,6 +50,9 @@ class GUI:
         termLabel = tk.Label(self.mainFrame, background="#d8b2a8", relief="groove", text='''Enter a keyword:''')
         termLabel.place(relx=0.567, rely=0.067, height=31, width=197)
 
+        radiusLabel = tk.Label(self.mainFrame, background="#d8b2a8", relief="groove", text='''Enter a radius:''')
+        radiusLabel.place(relx=0.567, rely=0.3, height=31, width=197)
+
         self.locationEntry = tk.Entry(self.mainFrame, background="white", selectbackground="#c4c4c4",
                                       selectforeground="black")
         self.locationEntry.place(relx=0.04, rely=0.2, relheight=0.07, relwidth=0.4)
@@ -57,6 +60,9 @@ class GUI:
         self.termEntry = tk.Entry(self.mainFrame, background="white", selectbackground="#c4c4c4",
                                   selectforeground="black")
         self.termEntry.place(relx=0.55, rely=0.2, relheight=0.07, relwidth=0.4)
+
+        self.radiusBox = ttk.Combobox(self.mainFrame, takefocus='', values=['2 miles', '5 miles', '15 miles', '30 miles', '50 miles'])
+        self.radiusBox.place(relx=0.65, rely=0.4, relheight=0.07, relwidth=0.2)
 
 
         optionButtons = []
@@ -104,7 +110,7 @@ class GUI:
             messagebox.showerror("Keyword Error", "Please input a keyword to find restaurants")
             return
 
-        self.restaurants, error = self.ship.getRestaurants(self.locationEntry.get(), self.termEntry.get())
+        self.restaurants, error = self.ship.getRestaurants(self.locationEntry.get(), self.termEntry.get(), self.radiusBox.get().split(' '))
         if error == 0:
             messagebox.showerror("API ERROR", "Please wait awhile before trying again")
             GUIsupport.destroy_window()
@@ -112,7 +118,7 @@ class GUI:
 
         for i in range(len(self.restaurants)):
             self.optionLabels[i].config(text=self.restaurants[i][1] + "'s rating: " + str(self.restaurants[i][2])
-                                        + " and price: " + str(self.restaurants[i][3]) + "\n")
+                                        + " and price: " + str(self.restaurants[i][3]) +  ", distance: " + self.restaurants[i][4] + " miles\n")
         self.changeFrames(self.restaurantFrame, self.mainFrame)
 
     #displays details of a restaurant on detail frame
